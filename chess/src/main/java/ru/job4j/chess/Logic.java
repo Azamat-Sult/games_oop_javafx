@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 public final class Logic {
     private final Figure[] figures = new Figure[32];
+    public Figure[] figuresForTest = new Figure[32];
     private int index = 0;
 
     public void add(Figure figure) {
@@ -18,9 +19,18 @@ public final class Logic {
         Cell[] steps = figures[index].way(dest);
         free(steps);
         figures[index] = figures[index].copy(dest);
+        figuresForTest = figures;
     }
 
     private boolean free(Cell[] steps) throws OccupiedCellException {
+        for (int index1 = 0; index1 < figures.length; index1++) {
+            for (int index2 = 0; index2 < steps.length; index2++) {
+                if (figures[index1] != null && figures[index1].position().equals(steps[index2])) {
+                    throw new OccupiedCellException(
+                            String.format("There are some figure in %s cell on the way", steps[index2]));
+                }
+            }
+        }
         return true;
     }
 
@@ -36,6 +46,7 @@ public final class Logic {
                 return index;
             }
         }
-        throw new FigureNotFoundException();
+        throw new FigureNotFoundException(
+                String.format("There are not found figure in this cell"));
     }
 }
