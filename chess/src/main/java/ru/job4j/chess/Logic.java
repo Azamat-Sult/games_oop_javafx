@@ -23,11 +23,11 @@ public final class Logic {
     }
 
     private boolean free(Cell[] steps) throws OccupiedCellException {
-        for (int index1 = 0; index1 < figures.length; index1++) {
-            for (int index2 = 0; index2 < steps.length; index2++) {
-                if (figures[index1] != null && figures[index1].position().equals(steps[index2])) {
+        for (Figure figure : figures) {
+            for (Cell step : steps) {
+                if (figure != null && figure.position().equals(step)) {
                     throw new OccupiedCellException(
-                            String.format("There are some figure in %s cell on the way", steps[index2]));
+                            String.format("There are some figure in %s cell on the way", step));
                 }
             }
         }
